@@ -1,0 +1,109 @@
+<html>
+    <head>
+            <script src="jquery-1.10.2.min.js"></script>
+            <link href="player.css" rel ="stylesheet" />
+    </head>
+<title >Cool Music Player</title>
+<body>
+  <div id="bg">
+        <div id="blackplayer"></div>
+      <img src="poster1.jpg"/>
+    </div> 
+    
+    
+    
+    <div id="main">
+        <div id="image">
+            <img src="poster1.jpg"/>
+        </div>
+        <div id="player">
+            <div id="songtitle"></div>
+            <div id="btns">
+                <button id="prev" onclick="pre()"><img src="prev.png" height="90%" width="90%"/></button> 
+                <button id="play" onclick="playOrPauseSong()"><img src="pause.png" height="90%" width="90%"/></button> 
+                 <button id="next" onclick="next()"><img src="next.png" height="90%" width="90%"/></button>            
+            </div>
+                <div id ="seekbar">
+                    <div id="fill"></div>
+                    <div id="handle"></div>
+                </div>
+            
+            </div>
+        </div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    var songs=["culture_code.m4a","Despacito X Faded.m4a","Beauty And A Beat.m4a","What Do You Mean.m4a"];
+    
+    var poster=["poster1.jpg","poster2.jpg","poster3.jpg","jb.jpg"];
+    
+    var songTitle = document.getElementById("songtitle");
+    var fillBar = document.getElementById("fill");
+        
+    var song = new Audio();
+    var currentSong=0;
+    
+    window.onload = playSong;
+    
+    function playSong()
+    {
+        song.src=songs[currentSong];
+        
+        songTitle.textContent=songs[currentSong];
+        
+        song.play();
+    }
+    function playOrPauseSong()
+    {
+        if(song.paused)
+            {
+                song.play();
+                $("#play img").attr("src","pause.png");
+            }
+        else{
+            song.pause();
+            $("#play img").attr("src","play2.png");
+        }
+    }
+    //now we access seekbar
+    
+    song.addEventListener('timeupdate',function(){
+        
+       var position=song.currentTime / song.duration;
+        
+        fillBar.style.width = position * 100 + '%';
+    });
+    //now work on next button
+    
+    function next(){
+        
+        currentSong++;
+        if( currentSong >3)
+            {
+                currentSong = 0;
+                
+            }
+        playSong();
+        $("#play img").attr("src","pause.png");
+        $("#image img").attr("src",poster[currentSong]);
+        $("#bg img").attr("src",poster[currentSong]);
+    }
+    //now we need to call this fn
+    
+     function pre(){
+        
+        currentSong--;
+        if( currentSong < 0)
+            {
+                currentSong = 3;
+                
+            }
+        playSong();
+        $("#play img").attr("src","pause.png");
+        $("#image img").attr("src",poster[currentSong]);
+        $("#bg img").attr("src",poster[currentSong]);
+    }
+
+</script>
